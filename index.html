@@ -51,6 +51,7 @@ h1{font:800 20px 'Plus Jakarta Sans';color:var(--forest)}
 .burn.small .p{min-height:32px;padding:6px 14px;font-size:12.5px}
 .burn.small .p.on{background:var(--sageFill);border-color:var(--forest);color:var(--forest)}
 .burn svg{width:15px;height:15px}
+.burn.soft .p.on{background:var(--sageFill);border:1.5px solid var(--forest);color:var(--forest);font-weight:700}
 
 /* page bits */
 .card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:14px;margin-top:12px}
@@ -80,7 +81,7 @@ h1{font:800 20px 'Plus Jakarta Sans';color:var(--forest)}
   <p>Design only, nothing in the app has changed. You said: <i>"I still don't love this pill design on all these. Maybe something more like what's on the burn app."</i> These are real tab rows from the Team app at phone width (390px), with the real labels from the code. <b>New</b> = separate rounded pills with a small gap; the one you're on is filled forest green with white text, the others are white with a thin light border and grey text.</p>
   <div class="ctrls"><span class="lbl">Show</span>
     <div class="seg" id="seg">
-      <button data-v="cur">Current (live)</button><button data-v="new" class="on">New · BURN pills</button><button data-v="new2">New + small rows as pills too</button>
+      <button data-v="cur">Current (live)</button><button data-v="new" class="on">New · BURN pills</button><button data-v="new2">New + small rows as pills too</button><button data-v="soft">Soft tint (pale sage selected)</button>
     </div>
   </div>
   <div class="desc" id="desc"></div>
@@ -118,13 +119,14 @@ const CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
 const DESC={
  cur:'<b>Current (live today):</b> the shared main-tab control is one cream track with a white tab and a thin forest ring around the one you are on. Smaller nested rows are plain words with a hairline between them. Community\'s Chat · Progress has its own white-on-cream look.',
  new:'<b>New · BURN pills:</b> every main tab row becomes separate rounded pills with an 8px gap. The one you are on is <b>filled forest green, white text</b>; the others are white with a thin light border and grey text. Same look as the Community top row and the Clients filter chips already have, so the whole app finally matches. Up to three tabs share the width; four or more scroll sideways (as they do today). Nested rows (Customer · Business · Opportunity Call etc.) stay as plain words so you can still tell which row is the main one.',
+ soft:'<b>Soft tint:</b> same separate rounded pills, but the one you are on is <b>pale sage with a forest outline and forest text</b> instead of solid forest. Lighter and calmer; reads like the green week chips in My Cohort. Others stay white with a thin light border and grey text.',
  new2:'<b>New + small rows as pills too:</b> same main pills, and the smaller nested rows also become pills, but lighter so the two rows don\'t compete: smaller, white, and the selected one is pale sage with a forest outline instead of solid forest. Pick this if you want <i>no</i> plain-word rows left anywhere.'
 };
 
 function cur(items,on,o={}){return '<div class="cur-track'+(o.hug?' hug':'')+'">'+items.map((l,i)=>'<div class="cur-item'+(i===on?' on':'')+'">'+l+'</div>').join('')+'</div>'}
-function burn(items,on,o={}){return '<div class="burn'+(o.scroll?' scroll':'')+(o.hug?' hug':'')+(o.small?' small':'')+'"'+(o.center?' style="justify-content:center"':'')+'>'+items.map((l,i)=>'<div class="p'+(i===on?' on':'')+'">'+l+'</div>').join('')+'</div>'}
+function burn(items,on,o={}){return '<div class="burn'+(o.soft?' soft':'')+(o.scroll?' scroll':'')+(o.hug?' hug':'')+(o.small?' small':'')+'"'+(o.center?' style="justify-content:center"':'')+'>'+items.map((l,i)=>'<div class="p'+(i===on?' on':'')+'">'+l+'</div>').join('')+'</div>'}
 function sec(items,on){return '<div class="sec">'+items.map((l,i)=>(i?'<i></i>':'')+'<span class="'+(i===on?'on':'')+'">'+l+'</span>').join('')+'</div>'}
-function main(v,items,on,o){return v==='cur'?cur(items,on,o):burn(items,on,o)}
+function main(v,items,on,o){return v==='cur'?cur(items,on,o):burn(items,on,Object.assign({},o||{},{soft:v==='soft'}))}
 function nested(v,items,on){return v==='new2'?burn(items,on,{small:true,center:true,hug:true}):sec(items,on)}
 const ghost=(w)=>'<div class="ghost" style="width:'+w+'%"></div>';
 
@@ -149,7 +151,7 @@ function render(v){
  const commTop='<div class="burn scroll"><div class="p on">All</div><div class="p">Cohort One '+CHEV+'</div><div class="p">21-Day Challenge</div><div class="p">Customers</div><div class="p">Questions</div></div>';
  const chatProg=v==='cur'
    ? '<div class="subseg"><span class="on">'+ICON_CHAT.replace('<svg','<svg width="15" height="15"')+'Chat</span><span>'+ICON_PROG.replace('<svg','<svg width="15" height="15"')+'Progress</span></div>'
-   : '<div class="burn"><div class="p on">'+ICON_CHAT+'Chat</div><div class="p">'+ICON_PROG+'Progress</div></div>';
+   : '<div class="burn'+(v==='soft'?' soft':'')+'"><div class="p on">'+ICON_CHAT+'Chat</div><div class="p">'+ICON_PROG+'Progress</div></div>';
  P.push({cap:'Community · top tabs (already BURN-style) + Chat | Progress',file:'app/(tabs)/community.tsx:1713 (tabs, unchanged) · :2301 (Chat | Progress)',html:
   '<div class="hdr">Community</div><div style="margin-top:12px">'+commTop.replace('<div class="p on">All','<div class="p">All').replace('<div class="p">Cohort One','<div class="p on">Cohort One')+'</div>'+
   '<div style="margin-top:14px">'+chatProg+'</div>'+

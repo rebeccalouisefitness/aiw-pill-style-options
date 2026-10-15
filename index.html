@@ -53,6 +53,26 @@ h1{font:800 20px 'Plus Jakarta Sans';color:var(--forest)}
 .burn svg{width:15px;height:15px}
 .burn.soft .p.on{background:var(--sageFill);border:1.5px solid var(--forest);color:var(--forest);font-weight:700}
 
+
+/* ── MORE OPTIONS (E–J) ── */
+.burn.v-under{gap:0;border-bottom:1px solid var(--border)}
+.burn.v-under .p{border:0;border-radius:0;background:transparent;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px;min-height:40px}
+.burn.v-under .p.on{background:transparent;color:var(--forest);border-bottom-color:var(--forest);font-weight:800}
+.burn.v-outline .p.on{background:#fff;border:1.5px solid var(--forest);color:var(--forest);font-weight:700}
+.burn.v-track{background:var(--track);border-radius:999px;padding:4px;gap:4px}
+.burn.v-track .p{background:transparent;border:0;color:var(--sub)}
+.burn.v-track .p.on{background:var(--forest);color:#fff;font-weight:700}
+.burn.v-icon .p{gap:6px}
+.burn.v-icon .p.on{background:var(--forest);border-color:var(--forest);color:#fff;font-weight:700}
+.burn.v-icon .p .ic{width:15px;height:15px;display:inline-flex}
+.burn.v-gold .p.on{background:var(--forest);border:1.5px solid #C9A86A;color:#F3E9D2;font-weight:700;box-shadow:0 0 0 3px rgba(201,168,106,.18)}
+.burn.v-gold .p.on::before{content:"";width:5px;height:5px;border-radius:50%;background:#C9A86A;margin-right:2px}
+.burn.v-gold .p{font-family:Inter;letter-spacing:.2px}
+.burn.v-slide{position:relative;background:#fff;border:1px solid var(--border);border-radius:16px;padding:4px;gap:0}
+.burn.v-slide .p{background:transparent;border:0;border-radius:12px;color:var(--sub);position:relative;z-index:1}
+.burn.v-slide .p.on{color:#fff;font-weight:700}
+.burn.v-slide .hl{position:absolute;top:4px;bottom:4px;border-radius:12px;background:var(--forest);box-shadow:0 2px 6px rgba(38,52,38,.25);transition:left .25s,width .25s;z-index:0}
+
 /* page bits */
 .card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:14px;margin-top:12px}
 .card .t{font:800 15px 'Plus Jakarta Sans';color:var(--forest)}
@@ -81,7 +101,7 @@ h1{font:800 20px 'Plus Jakarta Sans';color:var(--forest)}
   <p>Design only, nothing in the app has changed. You said: <i>"I still don't love this pill design on all these. Maybe something more like what's on the burn app."</i> These are real tab rows from the Team app at phone width (390px), with the real labels from the code. <b>New</b> = separate rounded pills with a small gap; the one you're on is filled forest green with white text, the others are white with a thin light border and grey text.</p>
   <div class="ctrls"><span class="lbl">Show</span>
     <div class="seg" id="seg">
-      <button data-v="cur">Current (live)</button><button data-v="new" class="on">New · BURN pills</button><button data-v="new2">New + small rows as pills too</button><button data-v="soft">Soft tint (pale sage selected)</button>
+      <button data-v="cur">A · Current (live)</button><button data-v="new" class="on">B · BURN pills</button><button data-v="soft">C · Soft tint</button><button data-v="new2">D · B + small rows as pills</button><button data-v="under">E · Underline tabs</button><button data-v="outline">F · Forest outline</button><button data-v="track">G · Solid on cream track</button><button data-v="icon">H · Icon + label</button><button data-v="gold">I · Forest & gold (Collective)</button><button data-v="slide">J · Sliding highlight</button>
     </div>
   </div>
   <div class="desc" id="desc"></div>
@@ -117,6 +137,12 @@ const ICON_PROG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 const CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M6 9l6 6 6-6"/></svg>';
 
 const DESC={
+under:'<b>E · Underline tabs:</b> no pills at all. Plain words on one line, the one you are on is <b>bold forest with a forest bar underneath</b>, the others are soft grey. Cleanest and most minimal; very common in premium apps.',
+ outline:'<b>F · Forest outline:</b> separate rounded pills; the one you are on is <b>white with a forest outline and forest text</b>, the others white with a light border. Green as a fine line rather than a fill.',
+ track:'<b>G · Solid on cream track:</b> one soft cream track holding the tabs (like today), but the one you are on is a <b>solid forest pill with white text</b> instead of today\'s white pill with a ring. Keeps today\'s shape, adds the green.',
+ icon:'<b>H · Icon + label:</b> BURN pills with a small line icon before each word (same icon family as the app). Selected is solid forest with white text and icon. Easier to scan at a glance.',
+ gold:'<b>I · Forest &amp; gold (Collective feel):</b> the one you are on is <b>deep forest with a fine champagne-gold edge, a tiny gold dot and soft cream text</b>; the others are white with a light border. Quiet luxury, matches the AI Wellness Collective look.',
+ slide:'<b>J · Sliding highlight:</b> a softer rounded white control with a <b>forest highlight that glides</b> to the tab you tap (tap the tabs on the Profile screen to see it move). Feels most like a native iPhone control.',
  cur:'<b>Current (live today):</b> the shared main-tab control is one cream track with a white tab and a thin forest ring around the one you are on. Smaller nested rows are plain words with a hairline between them. Community\'s Chat · Progress has its own white-on-cream look.',
  new:'<b>New · BURN pills:</b> every main tab row becomes separate rounded pills with an 8px gap. The one you are on is <b>filled forest green, white text</b>; the others are white with a thin light border and grey text. Same look as the Community top row and the Clients filter chips already have, so the whole app finally matches. Up to three tabs share the width; four or more scroll sideways (as they do today). Nested rows (Customer · Business · Opportunity Call etc.) stay as plain words so you can still tell which row is the main one.',
  soft:'<b>Soft tint:</b> same separate rounded pills, but the one you are on is <b>pale sage with a forest outline and forest text</b> instead of solid forest. Lighter and calmer; reads like the green week chips in My Cohort. Others stay white with a thin light border and grey text.',
@@ -126,7 +152,19 @@ const DESC={
 function cur(items,on,o={}){return '<div class="cur-track'+(o.hug?' hug':'')+'">'+items.map((l,i)=>'<div class="cur-item'+(i===on?' on':'')+'">'+l+'</div>').join('')+'</div>'}
 function burn(items,on,o={}){return '<div class="burn'+(o.soft?' soft':'')+(o.scroll?' scroll':'')+(o.hug?' hug':'')+(o.small?' small':'')+'"'+(o.center?' style="justify-content:center"':'')+'>'+items.map((l,i)=>'<div class="p'+(i===on?' on':'')+'">'+l+'</div>').join('')+'</div>'}
 function sec(items,on){return '<div class="sec">'+items.map((l,i)=>(i?'<i></i>':'')+'<span class="'+(i===on?'on':'')+'">'+l+'</span>').join('')+'</div>'}
-function main(v,items,on,o){return v==='cur'?cur(items,on,o):burn(items,on,Object.assign({},o||{},{soft:v==='soft'}))}
+const ICONS={Promotion:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>',Support:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 2-2.5 2-2.5 4M12 17h.01"/></svg>',Training:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg>',Leads:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M19 8v6M16 11h6"/></svg>',Methods:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>','What to say':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12z"/></svg>',Team:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 4.5a3.5 3.5 0 0 1 0 7M21 20c0-2.6-1.6-4.8-4-5.6"/></svg>',Leaderboard:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 20V10M12 20V4M18 20v-7"/></svg>','Org tree':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></svg>'};
+function main(v,items,on,o){
+ if(v==='cur') return cur(items,on,o);
+ const map={soft:'soft',under:'v-under',outline:'v-outline',track:'v-track',icon:'v-icon',gold:'v-gold',slide:'v-slide'};
+ const cls=map[v]||'';
+ const its=v==='icon'?items.map(l=>(ICONS[l]?'<span class="ic">'+ICONS[l]+'</span>':'')+l):items;
+ let h=burn(its,on,Object.assign({},o||{},{soft:v==='soft'}));
+ if(cls&&cls!=='soft') h=h.replace('<div class="burn','<div class="burn '+cls);
+ if(v==='slide') h=h.replace(/(<div class="burn[^"]*"[^>]*>)/,'$1<span class="hl"></span>');
+ return h;
+}
+function placeSlides(){document.querySelectorAll('.burn.v-slide').forEach(t=>{const on=t.querySelector('.p.on'),hl=t.querySelector('.hl');if(on&&hl){hl.style.left=on.offsetLeft+'px';hl.style.width=on.offsetWidth+'px';}
+ t.querySelectorAll('.p').forEach(p=>p.onclick=()=>{t.querySelectorAll('.p').forEach(x=>x.classList.remove('on'));p.classList.add('on');hl.style.left=p.offsetLeft+'px';hl.style.width=p.offsetWidth+'px';});});}
 function nested(v,items,on){return v==='new2'?burn(items,on,{small:true,center:true,hug:true}):sec(items,on)}
 const ghost=(w)=>'<div class="ghost" style="width:'+w+'%"></div>';
 
@@ -151,7 +189,7 @@ function render(v){
  const commTop='<div class="burn scroll"><div class="p on">All</div><div class="p">Cohort One '+CHEV+'</div><div class="p">21-Day Challenge</div><div class="p">Customers</div><div class="p">Questions</div></div>';
  const chatProg=v==='cur'
    ? '<div class="subseg"><span class="on">'+ICON_CHAT.replace('<svg','<svg width="15" height="15"')+'Chat</span><span>'+ICON_PROG.replace('<svg','<svg width="15" height="15"')+'Progress</span></div>'
-   : '<div class="burn'+(v==='soft'?' soft':'')+'"><div class="p on">'+ICON_CHAT+'Chat</div><div class="p">'+ICON_PROG+'Progress</div></div>';
+   : main(v==='icon'?'new':v,[ICON_CHAT+'Chat',ICON_PROG+'Progress'],0);
  P.push({cap:'Community · top tabs (already BURN-style) + Chat | Progress',file:'app/(tabs)/community.tsx:1713 (tabs, unchanged) · :2301 (Chat | Progress)',html:
   '<div class="hdr">Community</div><div style="margin-top:12px">'+commTop.replace('<div class="p on">All','<div class="p">All').replace('<div class="p">Cohort One','<div class="p on">Cohort One')+'</div>'+
   '<div style="margin-top:14px">'+chatProg+'</div>'+
@@ -166,8 +204,8 @@ function render(v){
 
  document.getElementById('phones').innerHTML=P.map(p=>'<div class="col"><div class="cap">'+p.cap+'</div><div class="phone"><div class="scr">'+p.html+'</div></div><div class="file">'+p.file+'</div></div>').join('');
 }
-document.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#seg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render(b.dataset.v)});
+document.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#seg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render(b.dataset.v);placeSlides()});
 const q=new URLSearchParams(location.search).get('v');
-if(q&&DESC[q]){document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x.dataset.v===q));render(q)}else render('new');
+if(q&&DESC[q]){document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x.dataset.v===q));render(q)}else render('new');placeSlides();
 </script>
 </body></html>

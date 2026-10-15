@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team app · Tab pills · BURN-style option (AIW-328)</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* App tokens (src/theme/tokens.ts + src/theme/cohortForest.ts), no new colours */
+:root{--appBg:#FBF8F3;--white:#FFFFFF;--border:#E8E1D4;--forest:#263426;--forestL:#34473A;--forestD:#1E2A1E;
+--orange:#F26B1D;--tan:#C8956C;--sage:#5A7A5E;--sageFill:#E7EFE6;--muted:#9C9787;--sub:#4B554D;--track:#F0E9DC;--hair:#E2DACB;--gold:#CFA038}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EDE7DC;font-family:Inter,system-ui,sans-serif;color:#1F2937;padding:18px 8px 40px;overflow-x:hidden}
+.top{max-width:1240px;margin:0 auto 14px}
+h1{font:800 20px 'Plus Jakarta Sans';color:var(--forest)}
+.top p{font-size:13px;color:var(--sub);margin-top:4px;max-width:86ch}
+.ctrls{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+.seg{display:flex;flex-wrap:wrap;border-radius:18px !important;background:#fff;border:1px solid var(--border);border-radius:999px;padding:3px}
+.seg button{border:0;background:transparent;font:600 13px Inter;padding:8px 14px;border-radius:999px;cursor:pointer;color:var(--sub)}
+.seg button.on{background:var(--forest);color:#fff}
+.lbl{font:700 11px Inter;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-right:2px}
+.desc{margin-top:10px;font-size:13.5px;color:#1F2937;background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 14px;max-width:860px;line-height:1.45}
+.desc b{color:var(--forest)}
+.phones{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;max-width:1240px;margin:0 auto}
+.col{display:flex;flex-direction:column;align-items:center}
+.phone{width:390px;max-width:calc(100vw - 16px);background:var(--appBg);border-radius:28px;box-shadow:0 10px 40px rgba(38,52,38,.16);overflow:hidden;border:1px solid #DDD4C4}
+.cap{font:700 11px Inter;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);text-align:center;margin:0 0 6px}
+.file{font:500 11px ui-monospace,Menlo,monospace;color:var(--muted);text-align:center;margin:6px 0 0;max-width:390px}
+.scr{padding:16px;min-height:330px}
+.hdr{font:800 22px 'Plus Jakarta Sans';color:#1F2937}
+.sub{font-size:13px;color:var(--sub);margin-top:2px}
+
+/* ── CURRENT: SegmentedTabs primary (white pill, forest ring, cream track) ── */
+.cur-track{display:flex;background:var(--track);border-radius:12px;padding:4px;gap:3px}
+.cur-track.hug{display:inline-flex}
+.cur-item{flex:1;padding:9px 0;border-radius:9px;text-align:center;border:1px solid transparent;font:700 12.5px/16px Inter;color:#8A8578;white-space:nowrap}
+.cur-track.hug .cur-item{flex:none;padding:9px 16px}
+.cur-item.on{background:#fff;border-color:var(--forest);color:var(--forest)}
+/* CURRENT secondary: plain words + hairline */
+.sec{display:flex;align-items:center;justify-content:center;gap:26px;white-space:nowrap}
+.sec span{font:600 14px Inter;color:var(--muted)} .sec span.on{font-weight:800;color:var(--forest)}
+.sec i{width:1px;height:13px;background:var(--hair)}
+/* CURRENT community Chat | Progress (subSeg) */
+.subseg{display:flex;gap:6px;background:#F1EBE0;border-radius:13px;padding:4px}
+.subseg span{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 0;border-radius:10px;font:700 13px Inter;color:var(--muted)}
+.subseg span.on{background:#fff;color:var(--forest)}
+
+/* ── NEW: BURN-style separate pills ── */
+.burn{display:flex;gap:8px}
+.burn.scroll{overflow:hidden;margin-right:-16px}
+.burn .p{flex:1;min-height:38px;display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 16px;border-radius:999px;background:#fff;border:1px solid var(--border);font:600 13px/18px Inter;color:var(--sub);white-space:nowrap}
+.burn.scroll .p,.burn.hug .p{flex:none}
+.burn .p.on{background:var(--forest);border-color:var(--forest);color:#fff;font-weight:700}
+.burn.small .p{min-height:32px;padding:6px 14px;font-size:12.5px}
+.burn.small .p.on{background:var(--sageFill);border-color:var(--forest);color:var(--forest)}
+.burn svg{width:15px;height:15px}
+
+/* page bits */
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:14px;margin-top:12px}
+.card .t{font:800 15px 'Plus Jakarta Sans';color:var(--forest)}
+.card .s{font-size:12.5px;color:var(--sub);margin-top:3px}
+.row{display:flex;align-items:center;gap:10px}
+.ico{width:36px;height:36px;border-radius:10px;background:var(--sageFill);display:flex;align-items:center;justify-content:center;flex:none;color:var(--forest)}
+.ico svg{width:18px;height:18px}
+.ghost{height:10px;border-radius:6px;background:#EFE9DD;margin-top:8px}
+.banner{background:#fff;border:1px solid var(--border);border-radius:16px;padding:12px 14px;margin:14px 0 28px;font:600 13px Inter;color:var(--forest)}
+.feed{background:#fff;border:1px solid var(--border);border-radius:16px;padding:12px;margin-top:12px}
+.av{width:34px;height:34px;border-radius:50%;background:var(--tan);color:#fff;font:800 12px Inter;display:flex;align-items:center;justify-content:center;flex:none}
+.mid{text-align:center}
+.flags{max-width:1240px;margin:18px auto 0;background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 16px;font-size:13px;line-height:1.5}
+.flags h2{font:800 15px 'Plus Jakarta Sans';color:var(--forest);margin-bottom:6px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.flags table{min-width:640px;border-collapse:collapse;width:100%;font-size:12.5px;margin-top:6px}
+.flags td,.flags th{border-top:1px solid var(--border);padding:6px 6px;text-align:left;vertical-align:top}
+.flags th{font:700 11px Inter;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.flags code{font:12px ui-monospace,Menlo,monospace;color:var(--sub)}
+.tag{display:inline-block;font:700 10.5px Inter;border-radius:999px;padding:2px 8px}
+.tag.ch{background:#FCE7D0;color:#B4531A}.tag.ok{background:var(--sageFill);color:var(--sage)}.tag.q{background:#F3E7D8;color:#8A6A3E}
+</style></head>
+<body>
+<div class="top">
+  <h1>Team app · Tab pills · BURN-style (AIW-328)</h1>
+  <p>Design only, nothing in the app has changed. You said: <i>"I still don't love this pill design on all these. Maybe something more like what's on the burn app."</i> These are real tab rows from the Team app at phone width (390px), with the real labels from the code. <b>New</b> = separate rounded pills with a small gap; the one you're on is filled forest green with white text, the others are white with a thin light border and grey text.</p>
+  <div class="ctrls"><span class="lbl">Show</span>
+    <div class="seg" id="seg">
+      <button data-v="cur">Current (live)</button><button data-v="new" class="on">New · BURN pills</button><button data-v="new2">New + small rows as pills too</button>
+    </div>
+  </div>
+  <div class="desc" id="desc"></div>
+</div>
+<div class="phones" id="phones"></div>
+
+<div class="flags">
+  <h2>Every tab / pill set in the Team app</h2>
+  One shared component draws most of them (<code>src/components/SegmentedTabs.tsx</code>), so changing its <b>primary</b> look changes all of the "main tab" rows at once. Two rows (Community) are drawn on their own, and the Community top row is <b>already</b> BURN-style today, which is why it looks right to you.
+  <div class="tw"><table>
+    <tr><th>Screen</th><th>Labels</th><th>Kind today</th><th>Change?</th><th>File</th></tr>
+    <tr><td>Profile</td><td>Promotion · Support · Training</td><td>Primary (white pill on cream track)</td><td><span class="tag ch">BURN pills</span></td><td><code>app/(tabs)/profile.tsx:1114</code></td></tr>
+    <tr><td>Profile · preview (you only)</td><td>Cohort view · Team view · Joining Cohort Two / New · Current</td><td>Secondary (plain words)</td><td><span class="tag q">your call</span></td><td><code>app/(tabs)/profile.tsx:1472, 1488</code></td></tr>
+    <tr><td>Prospects</td><td>Leads · Methods · What to say</td><td>Primary</td><td><span class="tag ch">BURN pills</span></td><td><code>src/components/prospects/ProspectsScreen.tsx:581</code></td></tr>
+    <tr><td>Prospects · Leads</td><td>Customer · Business · Opportunity Call</td><td>Secondary</td><td><span class="tag q">your call</span></td><td><code>ProspectsScreen.tsx:657</code></td></tr>
+    <tr><td>Prospects · Methods</td><td>Mine · Everyone · My Org</td><td>Secondary</td><td><span class="tag q">your call</span></td><td><code>ProspectsScreen.tsx:697</code></td></tr>
+    <tr><td>Team</td><td>Team · Leaderboard · Org tree</td><td>Primary</td><td><span class="tag ch">BURN pills</span></td><td><code>app/(tabs)/team.tsx:1407</code></td></tr>
+    <tr><td>Team · Leaderboard</td><td>This Month · 2026</td><td>Primary (hugging)</td><td><span class="tag ch">BURN pills</span></td><td><code>app/(tabs)/team.tsx:429</code></td></tr>
+    <tr><td>Team · Org tree</td><td>Team · Clients</td><td>Secondary</td><td><span class="tag q">your call</span></td><td><code>app/(tabs)/team.tsx:1214</code></td></tr>
+    <tr><td>Content</td><td>Ideas · 40-Day Plan · Training</td><td>Primary</td><td><span class="tag ch">BURN pills</span></td><td><code>app/(tabs)/content.tsx:577</code></td></tr>
+    <tr><td>Cohort board</td><td>Your Team · Whole App</td><td>Primary</td><td><span class="tag ch">BURN pills</span></td><td><code>src/components/cohort/CohortBoard.tsx:327</code></td></tr>
+    <tr><td>Community</td><td>All · Cohort One ▾ · 21-Day Challenge · Customers · Questions</td><td>Already BURN-style (own styles)</td><td><span class="tag ok">already right</span></td><td><code>app/(tabs)/community.tsx:1713 (styles.tab / tabOn)</code></td></tr>
+    <tr><td>Community · Cohort One &amp; 21-Day</td><td>Chat · Progress</td><td>White pill on cream track (own styles)</td><td><span class="tag ch">BURN pills</span></td><td><code>app/(tabs)/community.tsx:1881, 2301 (subSeg / subOpt)</code></td></tr>
+    <tr><td>Clients filters</td><td>All · New · Unread · Needs help · On a streak</td><td>Filter chips, already separate pills, forest when on</td><td><span class="tag ok">already right</span></td><td><code>src/components/FilterChipRow.tsx</code> via <code>app/(tabs)/clients.tsx:525</code></td></tr>
+    <tr><td>Leads filters / Team filters</td><td>(filter chips + search)</td><td>Same FilterChipRow</td><td><span class="tag ok">already right</span></td><td><code>src/components/leads/LeadsBoard.tsx:962</code>, <code>app/(tabs)/team.tsx:1454</code></td></tr>
+    <tr><td>Client detail</td><td>Overview · Diary · Plan · … (underlined words)</td><td>Underlined words, you chose this on 8 Oct</td><td><span class="tag ok">leave</span></td><td><code>app/client/[id].tsx:1104</code></td></tr>
+  </table></div>
+</div>
+
+<script>
+const ICON_CHAT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 20l1.9-5.7a8.5 8.5 0 0 1-.9-3.8A8.38 8.38 0 0 1 12.5 2 8.38 8.38 0 0 1 21 10.5z"/></svg>';
+const ICON_PROG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h5v5"/></svg>';
+const CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M6 9l6 6 6-6"/></svg>';
+
+const DESC={
+ cur:'<b>Current (live today):</b> the shared main-tab control is one cream track with a white tab and a thin forest ring around the one you are on. Smaller nested rows are plain words with a hairline between them. Community\'s Chat · Progress has its own white-on-cream look.',
+ new:'<b>New · BURN pills:</b> every main tab row becomes separate rounded pills with an 8px gap. The one you are on is <b>filled forest green, white text</b>; the others are white with a thin light border and grey text. Same look as the Community top row and the Clients filter chips already have, so the whole app finally matches. Up to three tabs share the width; four or more scroll sideways (as they do today). Nested rows (Customer · Business · Opportunity Call etc.) stay as plain words so you can still tell which row is the main one.',
+ new2:'<b>New + small rows as pills too:</b> same main pills, and the smaller nested rows also become pills, but lighter so the two rows don\'t compete: smaller, white, and the selected one is pale sage with a forest outline instead of solid forest. Pick this if you want <i>no</i> plain-word rows left anywhere.'
+};
+
+function cur(items,on,o={}){return '<div class="cur-track'+(o.hug?' hug':'')+'">'+items.map((l,i)=>'<div class="cur-item'+(i===on?' on':'')+'">'+l+'</div>').join('')+'</div>'}
+function burn(items,on,o={}){return '<div class="burn'+(o.scroll?' scroll':'')+(o.hug?' hug':'')+(o.small?' small':'')+'"'+(o.center?' style="justify-content:center"':'')+'>'+items.map((l,i)=>'<div class="p'+(i===on?' on':'')+'">'+l+'</div>').join('')+'</div>'}
+function sec(items,on){return '<div class="sec">'+items.map((l,i)=>(i?'<i></i>':'')+'<span class="'+(i===on?'on':'')+'">'+l+'</span>').join('')+'</div>'}
+function main(v,items,on,o){return v==='cur'?cur(items,on,o):burn(items,on,o)}
+function nested(v,items,on){return v==='new2'?burn(items,on,{small:true,center:true,hug:true}):sec(items,on)}
+const ghost=(w)=>'<div class="ghost" style="width:'+w+'%"></div>';
+
+function render(v){
+ document.getElementById('desc').innerHTML=DESC[v];
+ const P=[];
+ // 1 Profile
+ P.push({cap:'Profile · Promotion | Support | Training',file:'app/(tabs)/profile.tsx:1114 → SegmentedTabs primary',html:
+  '<div class="hdr">Profile</div><div class="sub">Rebecca Louise</div><div style="margin-top:16px">'+main(v,['Promotion','Support','Training'],0)+'</div>'+
+  '<div class="card"><div class="row"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/></svg></div><div style="flex:1"><div class="t">Customer website</div><div class="s">Your link to share with new customers</div></div></div></div>'+
+  '<div class="card"><div class="row"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div style="flex:1"><div class="t">Team presentation</div><div class="s">The opportunity video, ready to send</div></div></div></div>'+
+  '<div class="card"><div class="t">Brand kit</div>'+ghost(80)+ghost(55)+'</div>'});
+ // 2 Prospects
+ P.push({cap:'Prospects · Leads | Methods | What to say  +  Customer | Business | Opportunity Call',file:'src/components/prospects/ProspectsScreen.tsx:581 (primary) · :657 (nested)',html:
+  '<div class="hdr">Prospects</div><div style="margin-top:14px">'+main(v,['Leads','Methods','What to say'],0)+'</div>'+
+  '<div class="banner">3 people need a follow-up today</div>'+
+  nested(v,['Customer','Business','Opportunity Call'],0)+
+  '<div style="margin-top:28px"></div>'+
+  '<div class="card" style="margin-top:0"><div class="row"><div class="av">SH</div><div style="flex:1"><div class="t">Sarah H.</div><div class="s">Asked about the 21-Day Reset · 2d ago</div></div><span style="font:700 12px Inter;color:#fff;background:var(--orange);border-radius:999px;padding:7px 12px">Follow up</span></div></div>'+
+  '<div class="card"><div class="row"><div class="av" style="background:var(--sage)">JM</div><div style="flex:1"><div class="t">Jo M.</div><div class="s">Booked a call · Thu 10:00</div></div></div></div>'});
+ // 3 Community
+ const commTop='<div class="burn scroll"><div class="p on">All</div><div class="p">Cohort One '+CHEV+'</div><div class="p">21-Day Challenge</div><div class="p">Customers</div><div class="p">Questions</div></div>';
+ const chatProg=v==='cur'
+   ? '<div class="subseg"><span class="on">'+ICON_CHAT.replace('<svg','<svg width="15" height="15"')+'Chat</span><span>'+ICON_PROG.replace('<svg','<svg width="15" height="15"')+'Progress</span></div>'
+   : '<div class="burn"><div class="p on">'+ICON_CHAT+'Chat</div><div class="p">'+ICON_PROG+'Progress</div></div>';
+ P.push({cap:'Community · top tabs (already BURN-style) + Chat | Progress',file:'app/(tabs)/community.tsx:1713 (tabs, unchanged) · :2301 (Chat | Progress)',html:
+  '<div class="hdr">Community</div><div style="margin-top:12px">'+commTop.replace('<div class="p on">All','<div class="p">All').replace('<div class="p">Cohort One','<div class="p on">Cohort One')+'</div>'+
+  '<div style="margin-top:14px">'+chatProg+'</div>'+
+  '<div class="feed"><div class="row"><div class="av">RL</div><div style="flex:1"><div style="font:700 13.5px \'Plus Jakarta Sans\';color:var(--forest)">Rebecca Louise</div><div class="s" style="font-size:12px;color:var(--muted)">2h · Cohort One</div></div></div><div style="font-size:13.5px;margin-top:8px;color:#1F2937">Huge welcome to everyone starting Week 6 tonight. Bring your questions!</div></div>'+
+  '<div class="feed"><div class="row"><div class="av" style="background:var(--sage)">SI</div><div style="flex:1"><div style="font:700 13.5px \'Plus Jakarta Sans\';color:var(--forest)">Simona</div></div></div>'+ghost(90)+ghost(60)+'</div>'});
+ // 4 Team
+ P.push({cap:'Team · Team | Leaderboard | Org tree  +  This Month | 2026',file:'app/(tabs)/team.tsx:1407 (primary) · :429 (timeframe)',html:
+  '<div class="hdr">Team</div><div style="margin-top:16px">'+main(v,['Team','Leaderboard','Org tree'],1)+'</div>'+
+  '<div class="mid" style="margin-top:16px;font:800 17px \'Plus Jakarta Sans\';color:var(--forest)">Leaderboard</div>'+
+  '<div style="display:flex;justify-content:center;margin-top:10px">'+main(v,['This Month','2026'],0,{hug:true})+'</div>'+
+  [['1','Sinead','12'],['2','Simona','9'],['3','Dale','7']].map(r=>'<div class="card" style="margin-top:8px;padding:10px 14px"><div class="row"><span style="font:800 14px \'Plus Jakarta Sans\';color:var(--tan);width:16px">'+r[0]+'</span><div class="av" style="width:30px;height:30px;font-size:11px">'+r[1].slice(0,2).toUpperCase()+'</div><div style="flex:1;font:700 14px \'Plus Jakarta Sans\';color:var(--forest)">'+r[1]+'</div><span style="font:800 14px Inter;color:var(--forest)">'+r[2]+'</span></div></div>').join('')});
+
+ document.getElementById('phones').innerHTML=P.map(p=>'<div class="col"><div class="cap">'+p.cap+'</div><div class="phone"><div class="scr">'+p.html+'</div></div><div class="file">'+p.file+'</div></div>').join('');
+}
+document.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#seg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render(b.dataset.v)});
+const q=new URLSearchParams(location.search).get('v');
+if(q&&DESC[q]){document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x.dataset.v===q));render(q)}else render('new');
+</script>
+</body></html>
